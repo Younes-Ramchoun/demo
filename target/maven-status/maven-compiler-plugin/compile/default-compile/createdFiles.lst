@@ -1,0 +1,4 @@
+com\example\demo\controller\DeepInfraController.class
+com\example\demo\DeepinfraApplication.class
+com\example\demo\service\DeepInfraService.class
+com\example\demo\HelloController.class

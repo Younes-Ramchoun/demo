@@ -1,0 +1,14 @@
+Structure du dossier
+Le numéro de série du volume est B22E-B84D
+C:.
+    ChunkEmbeddingPair.java
+    EmbeddingSaveResponse.java
+    PdfEmbeddingResult.java
+    project_hierarchy.txt
+    RetrievedChunk.java
+    SearchRequest.java
+    SearchResult.java
+    
+Aucun sous-dossier existant 
+
+tree /F /A > project_hierarchy.txt

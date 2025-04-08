@@ -1,0 +1,8 @@
+Vérifiez l'état du conteneur :
+        docker ps
+Démarrez le conteneur :
+        docker start pgvector-db
+
+psql -h localhost -p 5432 -U user -d ai_db
+SELECT count(*) FROM chunk_embeddings;
+SELECT count(*) FROM chunk_embeddings WHERE source_id = 'chunk_overlap.pdf';

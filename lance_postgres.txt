@@ -1,0 +1,62 @@
+Voici une documentation détaillée des commandes que tu as utilisées pour configurer PostgreSQL et créer la base de données ainsi que les utilisateurs :
+
+1. Connexion à PostgreSQL
+La première étape consistait à te connecter à PostgreSQL en tant qu'utilisateur postgres (l'administrateur par défaut).
+
+bash
+Copier
+Modifier
+psql -U postgres
+psql : Ouvre l'interface en ligne de commande de PostgreSQL.
+-U postgres : Spécifie que tu te connectes avec l'utilisateur postgres.
+2. Création de la base de données
+Une fois connecté à PostgreSQL, tu as créé la base de données rag_db.
+
+sql
+Copier
+Modifier
+CREATE DATABASE rag_db;
+CREATE DATABASE rag_db : Crée une nouvelle base de données nommée rag_db.
+3. Création de l'utilisateur
+Tu as ensuite créé un utilisateur PostgreSQL avec un nom d'utilisateur rag_acaps et un mot de passe acaps.
+
+sql
+Copier
+Modifier
+CREATE USER rag_acaps WITH PASSWORD 'acaps';
+CREATE USER rag_acaps : Crée un nouvel utilisateur PostgreSQL nommé rag_acaps.
+WITH PASSWORD 'acaps' : Définit le mot de passe de l'utilisateur comme acaps.
+4. Accorder des privilèges
+Après avoir créé l'utilisateur, tu as accordé à rag_acaps tous les privilèges nécessaires sur la base de données rag_db afin qu'il puisse l'utiliser.
+
+sql
+Copier
+Modifier
+GRANT ALL PRIVILEGES ON DATABASE rag_db TO rag_acaps;
+GRANT ALL PRIVILEGES : Attribue tous les privilèges (lecture, écriture, gestion des tables, etc.) sur la base de données spécifiée.
+ON DATABASE rag_db : Indique que les privilèges sont appliqués sur la base de données rag_db.
+TO rag_acaps : Spécifie l'utilisateur qui reçoit les privilèges (ici, rag_acaps).
+5. Vérification des rôles (optionnel)
+Tu as vérifié la liste des rôles PostgreSQL avec la commande \du, qui affiche tous les rôles et leurs attributs dans PostgreSQL.
+
+sql
+Copier
+Modifier
+\du
+\du : Affiche la liste des rôles PostgreSQL et leurs privilèges.
+6. Redémarrer PostgreSQL (optionnel)
+Tu as redémarré le serveur PostgreSQL pour appliquer les modifications de manière effective (si nécessaire).
+
+bash
+Copier
+Modifier
+pg_ctl -D "C:\postgresql-17.4-1-windows-x64-binaries\pgsql\data" restart
+pg_ctl : Utilitaire pour démarrer, arrêter ou redémarrer PostgreSQL.
+-D "C:...data" : Spécifie le répertoire de données de PostgreSQL.
+restart : Redémarre le serveur PostgreSQL.
+Résumé des étapes clés
+Connexion : Tu t'es connecté à PostgreSQL avec l'utilisateur postgres.
+Création de la base de données : Création de rag_db pour ton projet.
+Création de l'utilisateur : L'utilisateur rag_acaps a été créé avec un mot de passe sécurisé.
+Privilèges : Attribution des privilèges nécessaires à rag_acaps sur rag_db.
+Redémarrage du serveur : Si nécessaire, tu as redémarré PostgreSQL pour appliquer les changements.
