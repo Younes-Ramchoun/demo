@@ -7,6 +7,10 @@
 # BlueJ files
 *.ctxt
 
+# Ignorer les composants DeepInfra (contiennent potentiellement des clés)
+src/main/java/com/example/demo/controller/DeepInfraController.java
+src/main/java/com/example/demo/service/DeepInfraService.java
+
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
