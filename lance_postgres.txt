@@ -1,3 +1,30 @@
+Installation de Docker Desktop : Vous avez installé Docker Desktop sur votre machine Windows et résolu les problèmes initiaux liés à WSL et au démarrage du moteur Docker.
+Lancement du Conteneur pgvector-db : Vous avez utilisé la commande docker run pour démarrer un conteneur basé sur l'image ankane/pgvector. Cette image contient à la fois PostgreSQL et l'extension pgvector pré-installée.
+Commande utilisée (ou équivalente) :
+        docker run -d ^
+          --name pgvector-db ^
+          -p 5432:5432 ^
+          -e POSTGRES_DB=ai_db ^
+          -e POSTGRES_USER=user ^
+          -e POSTGRES_PASSWORD=password ^
+          ankane/pgvector
+Points Clés de la Commande :
+        -d: Détaché (tourne en arrière-plan).
+        --name pgvector-db: Nom facile à retenir pour gérer le conteneur.
+        -p 5432:5432: Rend la base de données accessible sur localhost:5432 depuis votre machine Windows (et donc depuis votre application Spring Boot).
+        -e POSTGRES_...: Ces variables d'environnement ont automatiquement créé la base de données (ai_db ou rag_db) et l'utilisateur (user ou rag_acaps) avec son mot de passe (password ou acaps) à l'intérieur du conteneur lors du premier démarrage.
+Activation de l'Extension vector : Vous vous êtes connecté à la base de données à l'intérieur du conteneur via psql et avez exécuté
+        la commande SQL CREATE EXTENSION IF NOT EXISTS vector;. Ceci a activé l'extension (qui était déjà présente grâce à l'image ankane/pgvector) pour la base de données spécifique (ai_db ou rag_db).
+Configuration de Spring Boot : Vous avez mis à jour votre application.properties pour qu'il corresponde exactement aux informations de la base de données et de l'utilisateur créés par les variables d'environnement de la commande docker run.
+        spring.datasource.url=jdbc:postgresql://localhost:5432/ai_db (ou rag_db)
+        spring.datasource.username=user (ou rag_acaps)
+        spring.datasource.password=password (ou acaps)
+        spring.jpa.hibernate.ddl-auto=update (ou validate)
+Supprimer le conteneur (si vous voulez repartir de zéro - ATTENTION : supprime la base et ses données) :
+        docker stop pgvector-db
+        docker rm pgvector-db
+
+
 Voici une documentation détaillée des commandes que tu as utilisées pour configurer PostgreSQL et créer la base de données ainsi que les utilisateurs :
 
 1. Connexion à PostgreSQL

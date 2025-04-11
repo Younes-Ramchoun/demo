@@ -1,0 +1,78 @@
+Documentation Technique - Fonctionnalités Admin & RAG (Ollama + pgvector)
+A. Admin : Indexation de PDF
+Objectif : Upload + traitement de PDF (chunking, embedding via Ollama) → stockage pgvector.
+Endpoint :
+POST /api/admin/ingest
+Format : multipart/form-data
+Paramètres :
+file (PDF, obligatoire)
+chunkSize (optionnel, défaut 500)
+Réponse (JSON) :
+json
+Copy
+{
+  "message": "...",
+  "sourceId": "...",
+  "chunksProcessed": N,
+  "embeddingsSaved": N,
+  "savedIds": [...]
+}
+Composants :
+AdminIngestionController :
+Reçoit le POST → appelle AdminIndexingService.
+AdminIndexingService (@Transactional) :
+Workflow :
+Supprime anciens chunks (deleteBySourceId).
+Découpe PDF (PreprocessingService).
+Génère embeddings via Ollama nomic-embed-text (EmbeddingService2).
+Sauvegarde dans pgvector (EmbeddingPersistenceService).
+Services :
+PreprocessingService : Découpage PDF (PDFBox).
+EmbeddingService2 : Appel Ollama /api/embeddings (RestTemplate).
+EmbeddingPersistenceService : Sauvegarde (saveAll).
+BDD :
+ChunkEmbeddingRepository :
+saveAll(), deleteBySourceId(), findSimilarChunksByCosineDistance().
+ChunkEmbedding : Entité JPA.
+
+B. Client : Chat RAG (Ollama Local)
+Objectif : Réponse générée par Ollama (ex: Llama 3) avec contexte depuis pgvector.
+Endpoint :
+POST /api/rag/query
+Format : JSON
+Body :
+json
+Copy
+{ "question": "..." }
+Réponse (JSON) :
+json
+Copy
+{
+  "answer": "...",
+  "retrievedSources": [...]
+}
+Composants :
+RagController :
+Reçoit la question → appelle RagService.
+RagService :
+Workflow :
+Récupère chunks pertinents (RetrievalService).
+Construit le prompt (question + contexte).
+Appelle Ollama /api/chat (modèle configuré, ex: llama3) via RestTemplate.
+Retourne la réponse (message.content).
+RetrievalService :
+Embedding de la question (EmbeddingService2).
+Recherche pgvector (findSimilarChunksByCosineDistance).
+Configuration (application.properties) :
+properties
+Copy
+ollama.base.url=...
+ollama.model.embedding=nomic-embed-text
+ollama.model.chat=llama3
+
+Schéma Technique :
+Admin Flow :
+PDF → Découpage → Ollama (Embedding) → pgvector.
+RAG Flow :
+Question → Ollama (Embedding) → pgvector (Retrieval) → Ollama (Génération) → Réponse.
+

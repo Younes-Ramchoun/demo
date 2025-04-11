@@ -6,3 +6,56 @@ Démarrez le conteneur :
 psql -h localhost -p 5432 -U user -d ai_db
 SELECT count(*) FROM chunk_embeddings;
 SELECT count(*) FROM chunk_embeddings WHERE source_id = 'chunk_overlap.pdf';
+
+runner ollama:
+     ollama serve
+C:\Users\dell>ollama list
+NAME                       ID              SIZE      MODIFIED
+llama3:latest              365c0bd3c000    4.7 GB    3 days ago
+nomic-embed-text:latest    0a109f422b47    274 MB    8 days ago
+
+C:\Users\dell>ollama run llama3
+>>> Pourquoi le ciel est bleu ?
+La question classique !
+
+Le ciel apparaît bleu à cause de la façon dont les atomes d'azote (N2) et d'oxygène (O2) dans l'air interagissent
+avec la lumière solaire. Voici le détail :
+
+C:\Users\dell>ollama list
+NAME                       ID              SIZE      MODIFIED
+llama3:latest              365c0bd3c000    4.7 GB    3 days ago
+nomic-embed-text:latest    0a109f422b47    274 MB    8 days ago
+
+C:\Users\dell>curl http://localhost:11434
+Ollama is running
+C:\Users\dell>netstat -ano | findstr :11434
+  TCP    127.0.0.1:7750         127.0.0.1:11434        TIME_WAIT       0
+  TCP    127.0.0.1:11434        0.0.0.0:0              LISTENING       6156
+
+C:\Users\dell>tasklist | findstr java
+java.exe                     10556 Console                    2   105 508 Ko
+java.exe                     13644 Console                    2   302 948 Ko
+
+C:\Users\dell>taskkill /PID 10556 /F
+Opération réussie : le processus avec PID 10556 a été terminé.
+
+C:\Users\dell>tasklist | findstr java
+java.exe                     13644 Console                    2   304 564 Ko
+
+C:\Users\dell>curl http://localhost:11434
+Ollama is running
+C:\Users\dell>tasklist | findstr java
+java.exe                     18224 Console                    2   119 500 Ko
+java.exe                     10152 Console                    2   273 576 Ko
+
+C:\Users\dell>tasklist | findstr java
+java.exe                     18224 Console                    2   119 532 Ko
+java.exe                     10152 Console                    2   313 008 Ko
+
+C:\Users\dell>tasklist | findstr java
+java.exe                     18224 Console                    2   114 548 Ko
+
+C:\Users\dell>taskkill /PID 18224 /F
+Opération réussie : le processus avec PID 18224 a été terminé.
+
+C:\Users\dell>
