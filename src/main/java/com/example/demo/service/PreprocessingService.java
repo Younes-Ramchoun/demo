@@ -38,7 +38,7 @@ public class PreprocessingService {
     }
 
     // --- Votre méthode d'extraction (INCHANGÉE) ---
-    private String extractTextFromPdf(MultipartFile file) throws IOException {
+    String extractTextFromPdf(MultipartFile file) throws IOException {
         try (PDDocument document = PDDocument.load(file.getInputStream())) {
             PDFTextStripper pdfStripper = new PDFTextStripper();
             return pdfStripper.getText(document);
@@ -48,8 +48,8 @@ public class PreprocessingService {
         }
     }
 
-    // --- Votre méthode de chunking existante (INCHANGÉE) ---
-    private List<String> chunkTextWithOverlap(String text, int nbreMot) {
+    // ---  méthode de chunking existante (INCHANGÉE) ---
+    public List<String> chunkTextWithOverlap(String text, int nbreMot) {
         if (text == null || text.isBlank()) {
             log.warn("chunkTextWithOverlap received null or blank text. Returning empty list.");
             return List.of();
